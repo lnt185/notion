@@ -3,128 +3,238 @@
 <head>
   <meta charset="UTF-8">
   <title>Calendar – Theme Cà Phê Sữa</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-  :root {
-    /* coffee & milk theme */
-    --cal-bg: #F3E5AB;       
-    --cal-text: #6B4226;     /* cà phê đậm */
-    --cal-accent: #8C5728;   /* cà phê vừa */
-    --cal-border: #D8B38F;   /* outline nhẹ */
-    --cal-hover: #A67B5B;    /* hover tone */
-    --cal-today-bg: #6B4226;
-    --cal-today-text: #FFF;
-  }
-
-  body {
-    margin:0; padding:1em;
-    background: var(--cal-bg);
-    color: var(--cal-text);
-    font-family: 'Segoe UI', sans-serif;
-    display: flex; justify-content:center;
-  }
-  #calendari {
-    width:100%; max-width:360px;
-    background:#FFF; border-radius:8px;
-    overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,0.1);
-    position:relative;
-  }
-  /* toolbar */
-  .toolbar {
-    display:flex; justify-content:space-between;
-    align-items:center; padding:8px 16px;
-    background:var(--cal-accent); color:#FFF;
-  }
-  .toolbar .nav-btn {
-    background:transparent; border:none;
-    font-size:1.2rem; color:#FFF; cursor:pointer;
-    width:2em; height:2em; line-height:2em;
-    text-align:center; transition:color .2s;
-  }
-  .toolbar .nav-btn:hover { color: var(--cal-hover); }
-  .toolbar .title {
-    font-size:1.1rem; font-weight:600;
-    white-space:nowrap;
-  }
-  /* grid */
-  table {
-    display:grid;
-    grid-template-columns:repeat(7,1fr);
-    background:var(--cal-border);
-  }
-  th, td { padding:.5em; background:#FFF; text-align:center; }
-  th { background:var(--cal-accent); color:#FFF; font-weight:500; font-size:.85rem; }
-  td span {
-    display:inline-block; width:2em; height:2em;
-    line-height:2em; border-radius:50%;
-    transition:background .2s, color .2s;
-    outline:none;
-  }
-  td:not(.fora) span:hover {
-    background:var(--cal-hover); color:#FFF; cursor:pointer;
-  }
-  td.fora span { opacity:.3; }
-  td.avui span {
-    background:var(--cal-today-bg);
-    color:var(--cal-today-text); font-weight:600;
-  }
-  /* slide animation */
-  table { animation:slide-in .3s ease both; }
-  @keyframes slide-in {
-    from { opacity:0; transform:translateX(20px); }
-    to { opacity:1; transform:translateX(0); }
-  }
-  /* responsive */
-  @media(max-width:360px){
-    td span { width:1.8em; height:1.8em; }
-  }
-  /* screen-reader only */
-  .sr-only {
-    position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden;
-  }
+    :root {
+      /* coffee & milk theme */
+      --cal-bg:      #F3E5AB;
+      --cal-text:    #6B4226;
+      --cal-accent:  #8C5728;
+      --cal-border:  #D8B38F;
+      --cal-hover:   #A67B5B;
+      --cal-today-bg:   #6B4226;
+      --cal-today-text: #FFF;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 1em;
+      background: var(--cal-bg);
+      color: var(--cal-text);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex; justify-content: center;
+    }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); border: 0;
+    }
+    #calendari {
+      width: 100%; max-width: 360px;
+      background: #FFF; border-radius: 8px;
+      overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    .toolbar {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px;
+      background: var(--cal-accent);
+      color: #FFF;
+    }
+    .nav-btn {
+      background: transparent; border: none;
+      font-size: 1.3rem; color: #FFF;
+      width: 2em; height: 2em; line-height: 2em;
+      text-align: center; cursor: pointer;
+      transition: color .2s;
+    }
+    .nav-btn:hover { color: var(--cal-hover); }
+    .title {
+      font-size: 1.1rem; font-weight: 600;
+      white-space: nowrap;
+    }
+    table {
+      display: grid;
+      grid-template-columns: repeat(7,1fr);
+      background: var(--cal-border);
+      animation: slide-in .3s ease both;
+    }
+    @keyframes slide-in {
+      from { opacity: 0; transform: translateX(20px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    th, td {
+      padding: .5em; background: #FFF;
+      text-align: center;
+    }
+    th {
+      background: var(--cal-accent);
+      color: #FFF; font-weight: 500;
+      font-size: .85rem;
+    }
+    td span {
+      display: inline-block;
+      width: 2em; height: 2em;
+      line-height: 2em;
+      border-radius: 50%;
+      transition: background .2s, color .2s;
+      outline: none;
+    }
+    td:not(.fora) span:hover {
+      background: var(--cal-hover);
+      color: #FFF;
+      cursor: pointer;
+    }
+    td.fora span { opacity: .3; }
+    td.avui span {
+      background: var(--cal-today-bg);
+      color: var(--cal-today-text);
+      font-weight: 600;
+    }
+    @media (max-width: 360px) {
+      td span { width: 1.8em; height: 1.8em; }
+    }
   </style>
 </head>
 <body>
 
-<div id="calendari"
-     role="region" aria-labelledby="cal-caption">
+<div id="calendari" role="region" aria-labelledby="cal-title">
 
-  <!-- Skip Link -->
-  <a href="#calendari" class="sr-only">Bỏ qua tới lịch</a>
+  <!-- Skip link -->
+  <a href="#grid" class="sr-only">Bỏ qua tới lịch</a>
 
-  <!-- Toolbar with icons ๋࣭ ⭑⚝ -->
+  <!-- Toolbar -->
   <div class="toolbar" role="toolbar" aria-label="Chuyển tháng">
-    <button class="nav-btn" aria-label="Tháng trước">๊࣭</button>
-    <div class="title" id="cal-caption">June ⭑ 2025 ⚝</div>
-    <button class="nav-btn" aria-label="Tháng sau">๊࣭</button>
+    <button class="nav-btn prev" aria-label="Tháng trước">๊࣭</button>
+    <div class="title" id="cal-title">June ⭑ 2025 ⚝</div>
+    <button class="nav-btn next" aria-label="Tháng sau">๊࣭</button>
   </div>
 
   <!-- Calendar grid -->
-  <table role="grid" aria-labelledby="cal-caption">
+  <table id="grid" role="grid" aria-labelledby="cal-title">
     <caption class="sr-only" id="cal-caption">June 2025</caption>
     <thead>
       <tr>
-        <th scope="col">Su</th><th scope="col">Mo</th><th scope="col">Tu</th>
-        <th scope="col">We</th><th scope="col">Th</th><th scope="col">Fr</th>
+        <th scope="col">Su</th>
+        <th scope="col">Mo</th>
+        <th scope="col">Tu</th>
+        <th scope="col">We</th>
+        <th scope="col">Th</th>
+        <th scope="col">Fr</th>
         <th scope="col">Sa</th>
       </tr>
     </thead>
-    <tbody>
-      <!-- JS sẽ render 6 hàng ở đây -->
-      <!-- Ví dụ 1 ô: -->
-      <tr>
-        <td role="gridcell" tabindex="0" aria-selected="true"><span>1</span></td>
-        <!-- ... -->
-      </tr>
-    </tbody>
+    <tbody></tbody>
   </table>
 
-  <div aria-live="polite" class="sr-only" id="cal-alert"></div>
+  <div id="cal-alert" class="sr-only" aria-live="polite"></div>
 </div>
 
 <script>
-// chỉ là ví dụ, bạn chèn đoạn JS cũ đã chỉnh tabindex/aria-selected,
-// cập nhật caption và live-region, xử lý bàn phím
+(() => {
+  const months = [
+    'January','February','March','April','May','June',
+    'July','August','September','October','November','December'
+  ];
+  const today = new Date();
+  let current  = new Date(today);
+  let selected = new Date(today);
+
+  const cal       = document.getElementById('calendari');
+  const table     = cal.querySelector('table');
+  const prevBtn   = cal.querySelector('.nav-btn.prev');
+  const nextBtn   = cal.querySelector('.nav-btn.next');
+  const titleEl   = cal.querySelector('.toolbar .title');
+  const liveAlert = cal.querySelector('#cal-alert');
+  const tbody     = table.querySelector('tbody');
+
+  function renderCalendar() {
+    const m = current.getMonth(), y = current.getFullYear();
+    // update captions
+    titleEl.textContent    = `${months[m]} ⭑ ${y} ⚝`;
+    table.querySelector('caption').textContent = `${months[m]} ${y}`;
+    liveAlert.textContent  = `${months[m]} ${y}`;
+
+    // clear old days
+    tbody.innerHTML = '';
+
+    // find first cell date (including previous month filler)
+    const firstDayWeek = new Date(y, m, 1).getDay();
+    let dateIterator   = new Date(y, m, 1 - firstDayWeek);
+
+    for (let week = 0; week < 6; week++) {
+      const row = document.createElement('tr');
+      for (let d = 0; d < 7; d++) {
+        const cell = document.createElement('td');
+        const span = document.createElement('span');
+        span.textContent = dateIterator.getDate();
+
+        // ARIA + classes
+        cell.setAttribute('role', 'gridcell');
+        const isOutside = dateIterator.getMonth() !== m;
+        cell.classList.toggle('fora', isOutside);
+
+        const isSel = dateIterator.toDateString() === selected.toDateString();
+        cell.classList.toggle('avui', isSel);
+
+        span.tabIndex = isSel ? 0 : -1;
+        cell.setAttribute('aria-selected', isSel);
+
+        cell.appendChild(span);
+
+        // onClick: select date
+        cell.addEventListener('click', () => {
+          selected = new Date(dateIterator);
+          renderCalendar();
+          span.focus();
+        });
+
+        // arrow-key navigation
+        span.addEventListener('keydown', e => {
+          let delta = 0;
+          if (e.key === 'ArrowLeft')  delta = -1;
+          if (e.key === 'ArrowRight') delta = +1;
+          if (e.key === 'ArrowUp')    delta = -7;
+          if (e.key === 'ArrowDown')  delta = +7;
+          if (!delta) return;
+          e.preventDefault();
+          selected = new Date(
+            selected.getFullYear(),
+            selected.getMonth(),
+            selected.getDate() + delta
+          );
+          current = new Date(selected.getFullYear(), selected.getMonth(), 1);
+          renderCalendar();
+          // move focus to new cell
+          const all = Array.from(
+            cal.querySelectorAll('td[role="gridcell"]')
+          );
+          const match = all.find(td => {
+            const d = parseInt(td.textContent, 10);
+            return d === selected.getDate() && !td.classList.contains('fora');
+          });
+          match && match.querySelector('span').focus();
+        });
+
+        row.appendChild(cell);
+        dateIterator.setDate(dateIterator.getDate() + 1);
+      }
+      tbody.appendChild(row);
+    }
+  }
+
+  prevBtn.addEventListener('click', () => {
+    current.setMonth(current.getMonth() - 1);
+    renderCalendar();
+  });
+  nextBtn.addEventListener('click', () => {
+    current.setMonth(current.getMonth() + 1);
+    renderCalendar();
+  });
+
+  // initial draw
+  renderCalendar();
+})();
 </script>
 
 </body>

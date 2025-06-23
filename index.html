@@ -14,7 +14,9 @@
       --cal-today-bg:   #6B4226;
       --cal-today-text: #FFF;
     }
+
     * { box-sizing: border-box; }
+
     body {
       margin: 0; padding: 1em;
       background: var(--cal-bg);
@@ -22,17 +24,19 @@
       font-family: 'Segoe UI', sans-serif;
       display: flex; justify-content: center;
     }
+
     .sr-only {
       position: absolute; width: 1px; height: 1px;
       padding: 0; margin: -1px; overflow: hidden;
       clip: rect(0,0,0,0); border: 0;
     }
+
     #calendari {
       width: 100%; max-width: 360px;
       background: #FFF; border-radius: 8px;
       overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      position: relative;
     }
+
     .toolbar {
       display: flex; align-items: center;
       justify-content: space-between;
@@ -40,6 +44,7 @@
       background: var(--cal-accent);
       color: #FFF;
     }
+
     .nav-btn {
       background: transparent; border: none;
       font-size: 1.3rem; color: #FFF;
@@ -47,56 +52,72 @@
       text-align: center; cursor: pointer;
       transition: color .2s;
     }
+
     .nav-btn:hover { color: var(--cal-hover); }
+
     .title {
       font-size: 1.1rem; font-weight: 600;
       white-space: nowrap;
     }
+
     table {
-      display: grid;
-      grid-template-columns: repeat(7,1fr);
-      background: var(--cal-border);
-      animation: slide-in .3s ease both;
+      width: 100%;
+      border-collapse: collapse;
+      animation: fade-in .3s ease both;
     }
-    @keyframes slide-in {
-      from { opacity: 0; transform: translateX(20px); }
-      to   { opacity: 1; transform: translateX(0); }
+
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
+
     th, td {
-      padding: .5em; background: #FFF;
+      width: calc(100% / 7);
+      padding: .5em;
+      background: #FFF;
       text-align: center;
+      vertical-align: middle;
     }
+
     th {
       background: var(--cal-accent);
-      color: #FFF; font-weight: 500;
+      color: #FFF;
+      font-weight: 500;
       font-size: .85rem;
     }
+
     td span {
       display: inline-block;
       width: 2em; height: 2em;
       line-height: 2em;
       border-radius: 50%;
-      transition: all .2s ease;
+      transition: all 0.2s ease;
       outline: none;
     }
+
     td:not(.fora) span:hover {
       background: var(--cal-hover);
       color: #FFF;
       cursor: pointer;
     }
+
     td.fora span { opacity: .3; }
+
     td.selected span {
       background: var(--cal-hover);
       color: #FFF;
       font-weight: 600;
       transform: scale(1.1);
     }
+
     td.today span {
       border: 2px solid var(--cal-accent);
     }
+
     @media (max-width: 360px) {
       td span { width: 1.8em; height: 1.8em; }
     }
+
     @media (max-width: 320px) {
       .toolbar .title { font-size: 0.95rem; }
       td span { font-size: 0.75rem; }

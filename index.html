@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     :root {
-      /* coffee & milk theme */
       --cal-bg:      #F3E5AB;
       --cal-text:    #6B4226;
       --cal-accent:  #8C5728;
@@ -77,7 +76,7 @@
       width: 2em; height: 2em;
       line-height: 2em;
       border-radius: 50%;
-      transition: background .2s, color .2s;
+      transition: all .2s ease;
       outline: none;
     }
     td:not(.fora) span:hover {
@@ -86,13 +85,21 @@
       cursor: pointer;
     }
     td.fora span { opacity: .3; }
-    td.avui span {
-      background: var(--cal-today-bg);
-      color: var(--cal-today-text);
+    td.selected span {
+      background: var(--cal-hover);
+      color: #FFF;
       font-weight: 600;
+      transform: scale(1.1);
+    }
+    td.today span {
+      border: 2px solid var(--cal-accent);
     }
     @media (max-width: 360px) {
       td span { width: 1.8em; height: 1.8em; }
+    }
+    @media (max-width: 320px) {
+      .toolbar .title { font-size: 0.95rem; }
+      td span { font-size: 0.75rem; }
     }
   </style>
 </head>
@@ -100,17 +107,14 @@
 
 <div id="calendari" role="region" aria-labelledby="cal-title">
 
-  <!-- Skip link -->
   <a href="#grid" class="sr-only">Bỏ qua tới lịch</a>
 
-  <!-- Toolbar -->
   <div class="toolbar" role="toolbar" aria-label="Chuyển tháng">
-    <button class="nav-btn prev" aria-label="Tháng trước">๊࣭</button>
+    <button class="nav-btn prev" aria-label="Tháng trước">←</button>
     <div class="title" id="cal-title">June ⭑ 2025 ⚝</div>
-    <button class="nav-btn next" aria-label="Tháng sau">๊࣭</button>
+    <button class="nav-btn next" aria-label="Tháng sau">→</button>
   </div>
 
-  <!-- Calendar grid -->
   <table id="grid" role="grid" aria-labelledby="cal-title">
     <caption class="sr-only" id="cal-caption">June 2025</caption>
     <thead>
@@ -150,17 +154,13 @@
 
   function renderCalendar() {
     const m = current.getMonth(), y = current.getFullYear();
-    // update captions
-    titleEl.textContent    = `${months[m]} ⭑ ${y} ⚝`;
+    titleEl.textContent = `${months[m]} ⭑ ${y} ⚝`;
     table.querySelector('caption').textContent = `${months[m]} ${y}`;
-    liveAlert.textContent  = `${months[m]} ${y}`;
+    liveAlert.textContent = `${months[m]} ${y}`;
 
-    // clear old days
     tbody.innerHTML = '';
-
-    // find first cell date (including previous month filler)
     const firstDayWeek = new Date(y, m, 1).getDay();
-    let dateIterator   = new Date(y, m, 1 - firstDayWeek);
+    let dateIterator = new Date(y, m, 1 - firstDayWeek);
 
     for (let week = 0; week < 6; week++) {
       const row = document.createElement('tr');
@@ -168,28 +168,28 @@
         const cell = document.createElement('td');
         const span = document.createElement('span');
         span.textContent = dateIterator.getDate();
-
-        // ARIA + classes
         cell.setAttribute('role', 'gridcell');
-        const isOutside = dateIterator.getMonth() !== m;
-        cell.classList.toggle('fora', isOutside);
+        cell.setAttribute('aria-label', dateIterator.toDateString());
 
-        const isSel = dateIterator.toDateString() === selected.toDateString();
-        cell.classList.toggle('avui', isSel);
+        const isOutside = dateIterator.getMonth() !== m;
+        const isSel     = dateIterator.toDateString() === selected.toDateString();
+        const isToday   = dateIterator.toDateString() === today.toDateString();
+
+        cell.classList.toggle('fora', isOutside);
+        cell.classList.toggle('selected', isSel);
+        cell.classList.toggle('today', isToday);
 
         span.tabIndex = isSel ? 0 : -1;
         cell.setAttribute('aria-selected', isSel);
 
         cell.appendChild(span);
 
-        // onClick: select date
         cell.addEventListener('click', () => {
           selected = new Date(dateIterator);
           renderCalendar();
           span.focus();
         });
 
-        // arrow-key navigation
         span.addEventListener('keydown', e => {
           let delta = 0;
           if (e.key === 'ArrowLeft')  delta = -1;
@@ -205,7 +205,6 @@
           );
           current = new Date(selected.getFullYear(), selected.getMonth(), 1);
           renderCalendar();
-          // move focus to new cell
           const all = Array.from(
             cal.querySelectorAll('td[role="gridcell"]')
           );
@@ -232,7 +231,6 @@
     renderCalendar();
   });
 
-  // initial draw
   renderCalendar();
 })();
 </script>

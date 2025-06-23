@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Calendar – Theme Cà Phê Sữa</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+  :root {
+    /* coffee & milk theme */
+    --cal-bg: #F3E5AB;       /* sữa */
+    --cal-text: #6B4226;     /* cà phê đậm */
+    --cal-accent: #8C5728;   /* cà phê vừa */
+    --cal-border: #D8B38F;   /* outline nhẹ */
+    --cal-hover: #A67B5B;    /* hover tone */
+    --cal-today-bg: #6B4226;
+    --cal-today-text: #FFF;
+  }
+
+  body {
+    margin:0; padding:1em;
+    background: var(--cal-bg);
+    color: var(--cal-text);
+    font-family: 'Segoe UI', sans-serif;
+    display: flex; justify-content:center;
+  }
+  #calendari {
+    width:100%; max-width:360px;
+    background:#FFF; border-radius:8px;
+    overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,0.1);
+    position:relative;
+  }
+  /* toolbar */
+  .toolbar {
+    display:flex; justify-content:space-between;
+    align-items:center; padding:8px 16px;
+    background:var(--cal-accent); color:#FFF;
+  }
+  .toolbar .nav-btn {
+    background:transparent; border:none;
+    font-size:1.2rem; color:#FFF; cursor:pointer;
+    width:2em; height:2em; line-height:2em;
+    text-align:center; transition:color .2s;
+  }
+  .toolbar .nav-btn:hover { color: var(--cal-hover); }
+  .toolbar .title {
+    font-size:1.1rem; font-weight:600;
+    white-space:nowrap;
+  }
+  /* grid */
+  table {
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    background:var(--cal-border);
+  }
+  th, td { padding:.5em; background:#FFF; text-align:center; }
+  th { background:var(--cal-accent); color:#FFF; font-weight:500; font-size:.85rem; }
+  td span {
+    display:inline-block; width:2em; height:2em;
+    line-height:2em; border-radius:50%;
+    transition:background .2s, color .2s;
+    outline:none;
+  }
+  td:not(.fora) span:hover {
+    background:var(--cal-hover); color:#FFF; cursor:pointer;
+  }
+  td.fora span { opacity:.3; }
+  td.avui span {
+    background:var(--cal-today-bg);
+    color:var(--cal-today-text); font-weight:600;
+  }
+  /* slide animation */
+  table { animation:slide-in .3s ease both; }
+  @keyframes slide-in {
+    from { opacity:0; transform:translateX(20px); }
+    to { opacity:1; transform:translateX(0); }
+  }
+  /* responsive */
+  @media(max-width:360px){
+    td span { width:1.8em; height:1.8em; }
+  }
+  /* screen-reader only */
+  .sr-only {
+    position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden;
+  }
+  </style>
+</head>
+<body>
+
+<div id="calendari"
+     role="region" aria-labelledby="cal-caption">
+
+  <!-- Skip Link -->
+  <a href="#calendari" class="sr-only">Bỏ qua tới lịch</a>
+
+  <!-- Toolbar with icons ๋࣭ ⭑⚝ -->
+  <div class="toolbar" role="toolbar" aria-label="Chuyển tháng">
+    <button class="nav-btn" aria-label="Tháng trước">๊࣭</button>
+    <div class="title" id="cal-caption">June ⭑ 2025 ⚝</div>
+    <button class="nav-btn" aria-label="Tháng sau">๊࣭</button>
+  </div>
+
+  <!-- Calendar grid -->
+  <table role="grid" aria-labelledby="cal-caption">
+    <caption class="sr-only" id="cal-caption">June 2025</caption>
+    <thead>
+      <tr>
+        <th scope="col">Su</th><th scope="col">Mo</th><th scope="col">Tu</th>
+        <th scope="col">We</th><th scope="col">Th</th><th scope="col">Fr</th>
+        <th scope="col">Sa</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- JS sẽ render 6 hàng ở đây -->
+      <!-- Ví dụ 1 ô: -->
+      <tr>
+        <td role="gridcell" tabindex="0" aria-selected="true"><span>1</span></td>
+        <!-- ... -->
+      </tr>
+    </tbody>
+  </table>
+
+  <div aria-live="polite" class="sr-only" id="cal-alert"></div>
+</div>
+
+<script>
+// chỉ là ví dụ, bạn chèn đoạn JS cũ đã chỉnh tabindex/aria-selected,
+// cập nhật caption và live-region, xử lý bàn phím
+</script>
+
+</body>
+</html>
